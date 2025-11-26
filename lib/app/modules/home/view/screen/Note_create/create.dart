@@ -15,39 +15,64 @@ class NoteCreate extends StatelessWidget {
       backgroundColor: Colors.grey.shade300,
       appBar: AppBar(
         leading: InkWell(
-          onTap: () {
+          onTap: () async {
+            await controller.backButton();
             Navigator.pop(context);
           },
           child: Icon(Icons.arrow_back),
         ),
         backgroundColor: Colors.grey.shade300,
         actions: [
-          Icon(Icons.chat_outlined),
-          SizedBox(width: 10),
-          Icon(Icons.more_vert),
+          Obx(
+            () => controller.characterCount != 0
+                ? InkWell(
+                    onTap: () async {
+                      await controller.backButton();
+                      Navigator.pop(context);
+                    },
+                    child: CircleAvatar(
+                      backgroundColor: Colors.transparent,
+                      child: Icon(Icons.check),
+                    ),
+                  )
+                : Row(
+                    children: [
+                      Icon(Icons.chat_outlined),
+                      SizedBox(width: 10),
+                      Icon(Icons.more_vert),
+                    ],
+                  ),
+          ),
           SizedBox(width: 10),
         ],
       ),
       body: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 15),
+        padding: const EdgeInsets.symmetric(horizontal: 20),
         child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             CustomTextfield(
-              controller: controller.titlecrate.value,
-              cursorHeight: 25,
+              maxline: 1,
+              onchanged: (v) {
+                controller.updateCharacter(
+                  controllerfield: controller.titlecrate,
+                );
+              },
+              controller: controller.titlecrate,
+              cursorHeight: 22,
               InTextStyle: TextStyle(
                 color: Colors.black,
                 fontWeight: FontWeight.w500,
-                fontSize: 28,
+                fontSize: 24,
               ),
               hinttext: "Title",
-              hintStyle: TextStyle(fontSize: 25, color: Colors.grey.shade500),
+              hintStyle: TextStyle(fontSize: 22, color: Colors.grey.shade500),
             ),
             Row(
               spacing: 5,
               children: [
                 Text(
-                  "${DateFormat("MMMM dd  h:mm a").format(DateTime.now())}",
+                  " ${DateFormat("MMMM dd  h:mm a").format(DateTime.now())}",
                   style: TextStyle(
                     color: Colors.grey,
                     fontWeight: FontWeight.w500,
@@ -56,7 +81,7 @@ class NoteCreate extends StatelessWidget {
 
                 Obx(
                   () => Text(
-                    "|  ${controller.titlecrate}",
+                    "|  ${controller.characterCount}",
                     style: TextStyle(
                       color: Colors.grey,
                       fontSize: 14,
@@ -73,6 +98,13 @@ class NoteCreate extends StatelessWidget {
                   ),
                 ),
               ],
+            ),
+            SizedBox(height: 22),
+            CustomTextfield(
+              hinttext: "Start Typing",
+              hintStyle: TextStyle(fontSize: 17, color: Colors.grey),
+              maxline: 5,
+              controller: controller.bodyController,
             ),
           ],
         ),

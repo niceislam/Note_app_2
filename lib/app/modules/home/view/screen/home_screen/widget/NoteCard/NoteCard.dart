@@ -20,7 +20,6 @@ class NoteCard extends StatelessWidget {
       child: Padding(
         padding: const EdgeInsets.all(15.0),
         child: Column(
-          spacing: 2,
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Text(
@@ -29,8 +28,8 @@ class NoteCard extends StatelessWidget {
               style: TextStyle(
                 color: Colors.black,
                 overflow: TextOverflow.ellipsis,
-                fontSize: 17,
-                fontWeight: FontWeight.bold,
+                fontSize: 18,
+                fontWeight: FontWeight.w900,
               ),
             ),
             Text(
@@ -43,6 +42,7 @@ class NoteCard extends StatelessWidget {
                 fontWeight: FontWeight.w500,
               ),
             ),
+            SizedBox(height: 7),
             Text(
               maxLines: 1,
               "${time ?? DateFormat("dd MMMM").format(DateTime.now())}",

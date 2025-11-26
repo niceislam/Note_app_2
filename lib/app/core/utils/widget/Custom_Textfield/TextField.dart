@@ -13,7 +13,9 @@ class CustomTextfield extends StatelessWidget {
     this.hintStyle,
     this.cursorHeight,
     this.cursorColor,
-    this.InTextStyle, this.maxlength,
+    this.InTextStyle,
+    this.maxlength,
+    this.maxline,
   });
   final String? hinttext;
   final Color? fillcolor;
@@ -27,10 +29,12 @@ class CustomTextfield extends StatelessWidget {
   final double? cursorHeight;
   final Color? cursorColor;
   final int? maxlength;
+  final int? maxline;
 
   @override
   Widget build(BuildContext context) {
     return TextField(
+      maxLines: maxline,
       maxLength: maxlength,
       onChanged: onchanged,
       controller: controller,

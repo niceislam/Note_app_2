@@ -38,22 +38,23 @@ class BottomHome extends StatelessWidget {
               NoteModel item = controller.finalData[index];
               return Dismissible(
                 onDismissed: (dismiss) {
-                  log("================${dismiss}");
-                  var a = controller.searchData[index];
-                  controller.searchData.removeAt(index);
+                  //NoteModel deleteItem = controller.finalData[index];
+                  controller.NoteList.removeAt(index);
+                  // controller.finalData.removeWhere(
+                  //   (item) => item.time == deleteItem.time,
+                  // );
                   ScaffoldMessenger.of(context).showSnackBar(
                     SnackBar(
                       backgroundColor: Colors.red.shade200,
                       duration: Duration(seconds: 1),
                       content: Text(
-                        "${a.id} no Item Deleted",
+                        "${index + 1} no Item Deleted",
                         style: TextStyle(color: Colors.white),
                       ),
                     ),
                   );
-                  log("================${a}");
                 },
-                key: Key("${NoteData().Note[index]}"),
+                key: Key(item.title! + item.body! + item.time!),
                 child: NoteCard(
                   title: item.title,
                   body: item.body,
