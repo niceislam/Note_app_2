@@ -1,7 +1,5 @@
 import 'dart:developer';
-
 import 'package:flutter/material.dart';
-import 'package:note_app/app/data/dummy_data/Note_data/note_data.dart';
 import 'package:note_app/app/data/model/Note_model/model.dart';
 import 'package:note_app/app/modules/home/controller/home_controller/controller.dart';
 import '../../../../../core/utils/widget/Custom_Textfield/TextField.dart';
@@ -13,7 +11,9 @@ class BottomHome extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    log("==========================================================555");
     HomeController controller = Get.put(HomeController());
+
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -37,21 +37,21 @@ class BottomHome extends StatelessWidget {
             itemBuilder: (context, index) {
               NoteModel item = controller.finalData[index];
               return Dismissible(
+                background: Container(
+                  color: Colors.red,
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.end,
+                    children: [
+                      const Icon(Icons.delete, color: Colors.white, size: 35),
+                      SizedBox(width: 10),
+                    ],
+                  ),
+                ),
                 onDismissed: (dismiss) {
-                  //NoteModel deleteItem = controller.finalData[index];
-                  controller.NoteList.removeAt(index);
-                  // controller.finalData.removeWhere(
-                  //   (item) => item.time == deleteItem.time,
-                  // );
-                  ScaffoldMessenger.of(context).showSnackBar(
-                    SnackBar(
-                      backgroundColor: Colors.red.shade200,
-                      duration: Duration(seconds: 1),
-                      content: Text(
-                        "${index + 1} no Item Deleted",
-                        style: TextStyle(color: Colors.white),
-                      ),
-                    ),
+                  controller.ondismiss(
+                    dissmiss: dismiss,
+                    index: index,
+                    context: context,
                   );
                 },
                 key: Key(item.title! + item.body! + item.time!),
