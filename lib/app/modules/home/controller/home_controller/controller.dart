@@ -46,23 +46,6 @@ class HomeController extends GetxController {
       searchData.assignAll(originalData);
     }
   }
-  // searchFun({required String searchText}) {
-  //   if (searchText != "") {
-  //     List<NoteModel> searchValue = searchData
-  //         .where(
-  //           (v) =>
-  //               v.title!.toLowerCase().contains(searchText.toLowerCase()) ||
-  //               v.body!.toLowerCase().contains(searchText.toLowerCase()),
-  //         )
-  //         .toList();
-  //     finalData.value = searchValue;
-  //   } else {
-  //     finalData.clear();
-  //     log("=============////${searchData.length}");
-  //     log("=============////${finalData.length}");
-  //     finalData.value = searchData;
-  //   }
-  // }
 
   ondismiss({
     required dynamic dissmiss,
