@@ -11,8 +11,8 @@ import '../../view/bottom_view/bottom_view_home/home.dart';
 class HomeController extends GetxController {
   RxInt bottomIndex = 0.obs;
   List NoteList = [];
+  RxList<NoteModel> originalData = <NoteModel>[].obs;
   RxList<NoteModel> searchData = <NoteModel>[].obs;
-  RxList<NoteModel> finalData = <NoteModel>[].obs;
   RxList bottomPage = [BottomHome(), Trash()].obs;
   RxList BottomAppbar = [HomeAppbar(), TrashAppbar()].obs;
 
@@ -20,29 +20,49 @@ class HomeController extends GetxController {
     bottomIndex.value = index;
   }
 
-  showData() async {
-    finalData.clear();
+  showData() {
+    originalData.clear();
     for (var i in NoteList) {
       dynamic ModelData = NoteModel.fromJson(i);
-      searchData.add(ModelData);
+      originalData.add(ModelData);
     }
-    finalData = searchData;
+    searchData.assignAll(originalData);
   }
 
-  searchFun({required String searchText}) {
-    if (searchText != "") {
-      List<NoteModel> searchValue = searchData
+  ItemSearchFun({required String onchanged}) {
+    if (onchanged.isNotEmpty) {
+      List<NoteModel> searchText = originalData
           .where(
-            (v) => v.title!.toLowerCase().contains(searchText.toLowerCase()),
+            (v) =>
+                v.title!.toLowerCase().contains(onchanged.toLowerCase()) ||
+                v.body!.toLowerCase().contains(onchanged.toLowerCase()),
           )
           .toList();
-      finalData.value = searchValue;
+
+      searchData.assignAll(searchText);
     } else {
       log("=============////${searchData.length}");
-      log("=============////${finalData.length}");
-      finalData = searchData;
+      log("=============////${originalData.length}");
+      searchData.assignAll(originalData);
     }
   }
+  // searchFun({required String searchText}) {
+  //   if (searchText != "") {
+  //     List<NoteModel> searchValue = searchData
+  //         .where(
+  //           (v) =>
+  //               v.title!.toLowerCase().contains(searchText.toLowerCase()) ||
+  //               v.body!.toLowerCase().contains(searchText.toLowerCase()),
+  //         )
+  //         .toList();
+  //     finalData.value = searchValue;
+  //   } else {
+  //     finalData.clear();
+  //     log("=============////${searchData.length}");
+  //     log("=============////${finalData.length}");
+  //     finalData.value = searchData;
+  //   }
+  // }
 
   ondismiss({
     required dynamic dissmiss,
@@ -51,7 +71,7 @@ class HomeController extends GetxController {
   }) {
     TrashController controller = Get.put(TrashController());
     controller.TrashList.add(NoteList[index]);
-    finalData.removeAt(index);
+    originalData.removeAt(index);
     ScaffoldMessenger.of(context).showSnackBar(
       SnackBar(
         backgroundColor: Colors.red.shade200,

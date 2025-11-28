@@ -11,7 +11,6 @@ class BottomHome extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    log("==========================================================555");
     HomeController controller = Get.put(HomeController());
 
     return Column(
@@ -20,8 +19,8 @@ class BottomHome extends StatelessWidget {
         Text("Notes", style: TextStyle(color: Colors.black, fontSize: 40)),
         SizedBox(height: 10),
         CustomTextfield(
-          onchanged: (value) {
-            controller.searchFun(searchText: value);
+          onchanged: (v) {
+            controller.ItemSearchFun(onchanged: v);
           },
           hinttext: "Search here",
           preIcon: Icon(Icons.search_outlined, color: Colors.grey),
@@ -33,9 +32,9 @@ class BottomHome extends StatelessWidget {
           return ListView.builder(
             physics: NeverScrollableScrollPhysics(),
             shrinkWrap: true,
-            itemCount: controller.finalData.length,
+            itemCount: controller.searchData.length,
             itemBuilder: (context, index) {
-              NoteModel item = controller.finalData[index];
+              NoteModel item = controller.searchData[index];
               return Dismissible(
                 background: Container(
                   color: Colors.red,
